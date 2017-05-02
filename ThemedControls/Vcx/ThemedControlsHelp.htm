@@ -1,0 +1,85 @@
+<title>
+A simple guide on how to use ThemedControls
+</title>
+<body>
+<p>Add the following files to your project:</p>
+<ul>
+<li>Text files from Other tab in Project Manager<br>Ctl32.h (mark it as "Excluded" from your project)<br>ThemedControls.h (mark it as "Excluded" from your project)<br>Themes.xml (mark it as "Excluded" from your project)<br><em>*** Don't forget to distribute these xml file together with your application! ***</em><br><br>
+<li>Applications from Code tab in Project Manager<br>System.app (GDIPlusX from VFPX)<br><em>*** Don't forget to distribute these app file together with your application! ***<br><br></em>
+<li><em></em>Programs from Code tab in Project Manager<br>Ctl32.prg<br>Ctl32_Api.prg<br>Ctl32_Classes.prg<br>Ctl32_Functions.prg<br>Ctl32_Structures.prg<br>Ctl32_Vfp2c32.prg<br><font color="darkblue">ThemedControls_Api.prg<br>ThemedControls_Structures.prg</font><br><br>
+<li>Classes tab in Project Manager<br>Buttons.vcx<br>Ctl32.vcx<br>ExplorerBar.vcx<br>OutlookNavBar.vcx<br><font color="darkblue">Ribbon.vcx<br>ScreenTip.vcx</font><br>ThemedControls.vcx<br>ThemedControlsBuilders.vcx (mark it as "Excluded" from your project)<br>ToolBox.vcx<br>VFPX.vcx<br>ZoomNavBar.vcx<br><em>*** Don't use controls from Buttons.vcx, ExplorerBar.vcx, OutlookNavBar.vcx, ToolBox.vcx and ZoomNavBar.vcx directly because they are base classes. Use the subclassed controls in ThemedControls.vcx. ***</em></li></ul>
+<p><strong></strong>&nbsp;</p>
+<p><strong><font color="#0000ff">Before use any ThemedControl:</font></strong> </p>
+<p>ThemesManager and BindWindowsEventsProxy objects used to handle themes are created automatically, but you need to destroy them and remove all API libraries from memory before finish your application.</p>
+<blockquote>
+<p><pre>* Destroy ThemesManager object<br>If Vartype(_Screen.ThemesManager)=="O"<br>&nbsp;&nbsp; _Screen.RemoveObject("ThemesManager")<br>Endif</p><p>* Destroy BindWindowsEventsProxy object<br>If Type("_vfp.BindWindowsEventsProxy")<>"U"<br>   _vfp.BindWindowsEventsProxy = Null<br>Endif</p><p>* Remove all API libraries from memory</p><p>Set Library To</p></pre></blockquote>
+<p>&nbsp;</p>
+<p><strong>To use Button:</strong> 
+<ol>
+<li>Add a ThemedButton object from ThemedControls.vcx to your form; 
+<li>Double click CustomBuilder property in Properties Window to show the Builder; 
+<li>Fill the properties and click in <em>Save and Exit</em> button; 
+<li>Use Click method to handle the button click.</li></ol>
+<p>&nbsp;</p>
+<p><strong></strong>
+<p><strong>To use ExplorerBar:</strong> 
+<ol>
+<li>Add a ThemedExplorerGroup object from ThemedControls.vcx to your form; 
+<li>Double click CustomBuilder property in Properties Window to show the Builder; 
+<li>Fill the properties and click in <em>Save and Exit</em> button; 
+<li>Click with right mouse button in ThemedExplorerGroup and choose Edit from shortcut menu to edit the control; 
+<li>Click with right mouse button in cntUserControls and choose Edit from shortcut menu to edit the control; 
+<li>Place any control that you want inside cntUserControls; 
+<li>Repeat steps from 1 to 6 to create how much groups you want; 
+<li>Add a ThemedExplorerBar object from ThemedControls.vcx to your form; 
+<li>Select all ThemedExplorerGroups you created and press CTRL + X in your keyboard; 
+<li>Click with right mouse button in ThemedExplorerBar and choose Edit from shortcut menu to edit the control; 
+<li>Press CTRL + V in your keyboard to move all ThemedExplorerGroups inside ThemedExplorerBar.</li></ol>
+<blockquote>
+<p>Or</p></blockquote>
+<ol>
+<li>Add a ThemedExplorerBar object from ThemedControls.vcx to your form; 
+<li>Double click CustomBuilder property in Properties Window to show the Builder; 
+<li>Fill the properties and click in <em>Add this group to the bar</em> button; 
+<li>Repeat step 3 to create how much groups you want; 
+<li>Click with right mouse button in ThemedExplorerBar and choose Edit from shortcut menu to edit the control; 
+<li>Click with right mouse button in ThemedExplorerGroup and choose Edit from shortcut menu to edit the control; 
+<li>Click with right mouse button in cntUserControls and choose Edit from shortcut menu to edit the control; 
+<li>Place any control that you want inside cntUserControls; 
+<li>Repeat steps from 6 to 8 for each group you created.</li></ol>
+<p><strong></strong>&nbsp;</p>
+<p><strong>To use OutlookNavBar:</strong></p>
+<ol>
+<li>Add a ThemedOutlookNavBar object from ThemedControls.vcx to your form; 
+<li>Click with right mouse button in ThemedOutlookNavbar and choose Edit from shortcut menu to edit the control; 
+<li>Click in the empty control area to select the Panes pagreframe object; 
+<li>Set the PageCount property to the number of buttons that you want to display; 
+<li>In the Properties Window, activate each page and set Caption, HotKey, Picture16 and Picture24 properties; 
+<li>Add the controls you want to display in each page (you can add any control: TreeView, TextBox, CommandButton, ...); 
+<li>Use ButtonClicked method to handle the correspondent button click. This method receive 3 parameters about the button clicked: lnNumber, lcCaption and lcPicture24.</li></ol>
+<p><em>*** Note that at run time, the control will create a button for each page and will use Caption, HotKey, Picture16 and Picture24 page properties as the source of caption and picture button properties. ***</em></p>
+<p>&nbsp;</p>
+<p><strong>To use ToolBox:</strong> 
+<ol>
+<li>Add a ThemedToolBox object from ThemedControls.vcx to your form; 
+<li>Click with right mouse button in ThemedToolBox and choose Edit from shortcut menu to edit the control; 
+<li>Click in the empty control area to select the Panes pagreframe object; 
+<li>Set the PageCount property to the number of titles that you want to display; 
+<li>In the Properties Window, activate each page and set Caption property; 
+<li>Add the controls you want to display in each page (you can add any control: TreeView, TextBox, CommandButton, ...); 
+<li>Use TitleClicked method to handle the correspondent title click. This method receive a parameter named lcTitle containing the name of title clicked.</li></ol>
+<p><em>*** Note that at run time, the control will create a title for each page and will use Caption page property as the source of caption title property. ***</em></p>
+<p>&nbsp;</p>
+<p><strong>To use ZoomNavBar:</strong> 
+<ol>
+<li>Add a ThemedZoomNavBar object from ThemedControls.vcx to your form; 
+<li>In the Init method, place the code to add the buttons that you want to display:<br>
+<p><pre>DoDefault()<br>With This<br>&nbsp;&nbsp; .AddButton("Printers","Manage your printers.","Printer96.png")<br>&nbsp;&nbsp; .AddButton("Display","Change the display settings.","Monitor96.png")<br>&nbsp;&nbsp; .AddButton("Explorer","Show computer's files and folders.","Folder96.png")<br>&nbsp;&nbsp; *<br>&nbsp;&nbsp; .AddButton("Separator")<br>&nbsp;&nbsp; *<br>&nbsp;&nbsp; .AddButton("ControlPanel","Change your OS settings.","ControlPanel96.png")<br>&nbsp;&nbsp; .AddStackButton("ControlPanel","Button1","Add/Remove programs","Software32.png")<br>&nbsp;&nbsp; .AddStackButton("ControlPanel","Button2","Hardware settings","Hardware32.png")<br>&nbsp;&nbsp; .AddStackButton("ControlPanel","Button3","Network settings","Network32.png")<br>Endwith</pre>
+<li>Use AddButton method to add a button and AddStackButton to add an option to a button menu.<br>Sintax:<br><pre>AddButton( cButtonName, cToolTip, cImagePathAndName )<br>AddStackButton( cParentButtonName, cButtonName, cToolTip, cImagePathAndName )</pre>
+<li>Use ButtonClicked and StackButtonClicked to handle the correspondent button click:<br><pre>Lparameters lcName<br>Do Case<br>&nbsp;&nbsp; Case lcName=="Printers"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; apiShellExecute(0, "Open", "Control.exe", "Printers", "", 1)<br>&nbsp;&nbsp; Case lcName=="Display"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; apiShellExecute(0, "Open", "Control.exe", "Desk.cpl", "", 1)<br>&nbsp;&nbsp; Case lcName=="Explorer"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; apiShellExecute(0, "Explore", "", "", "", 1)<br>&nbsp;&nbsp; Otherwise<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Messagebox("Button '"+lcName+"' was clicked!")<br>Endcase</pre>
+<p></p></li></ol>
+<p>
+<p>&nbsp; <p>If you have questions, suggestions or want to report bugs, feel free to contact me.</p>
+<p>&nbsp;</p>
+<p>Emerson Santon Reed<br><a href="mailto:emerson_reed@hotmail.com">emerson_reed@hotmail.com</a></p>
+</body>
